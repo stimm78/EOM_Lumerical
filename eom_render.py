@@ -1,36 +1,18 @@
 import importlib
-from collections import defaultdict
 import eom_parameters as param
 importlib.reload(param)
 
-# Global materials
-substrate_material_et = "Si (Silicon)"
-substrate_material_o = "Si (Silicon) - Palik"
-oxide_material_et = "SiO2 (Glass) - Sze"
-oxide_material_o = "SiO2 (Glass) - Palik"
-wg_material_et = "LiNbO3 semiconductor - X/Y cut (Lithium Niobate)"
-wg_material_o = "Dielectric"
-wg_index = 2
-contact_material_et = "Au (Gold) - CRC"
-contact_material_o = "Au (Gold) - CRC"
-background_material_et = "Air"
-background_material_o = "etch"
-
-material_et = [substrate_material_et, oxide_material_et, wg_material_et, contact_material_et]
-material_o = [substrate_material_o, oxide_material_o, wg_material_o, contact_material_o]
-
-# Color depends on ordering in the list
 def add_materials(device):
-    for i, material in enumerate(material_et):    
+    for i, material in enumerate(param.material_et):    
         device.addmodelmaterial()
         device.setnamed("materials::New Material","name", material)
         device.addmaterialproperties("CT", material)
         device.select("materials::" + material);
-        device.addmaterialproperties("EM", material_o[i])
+        device.addmaterialproperties("EM", param.material_o[i])
 
-        if(material_o[i] == wg_material_o):
-            device.setnamed("materials::" + material + "::"+ wg_material_o,
-                            "refractive index",wg_index)
+        if(param.material_o[i] == param.wg_material_o):
+            device.setnamed("materials::" + material + "::"+ param.wg_material_o,
+                            "refractive index", param.wg_index)
 
 # Draws geometry of eom
 def draw_eom(device):
@@ -51,43 +33,43 @@ def draw_eom(device):
         ("x", 0), ("x span", param.substrate_length),
         ("y", 0), ("y span", param.substrate_width),
         ("z", param.substrate_z), ("z span", param.substrate_thickness),
-        ("material", substrate_material_et)
+        ("material", param.substrate_material_et)
     ),
     "box": (
         ("x", 0), ("x span", param.box_length),
         ("y", 0), ("y span", param.box_width),
         ("z", param.box_z), ("z span", param.box_thickness),
-        ("material", oxide_material_et)
+        ("material", param.oxide_material_et)
     ),
     "waveguide": (
         ("z", param.waveguide_z), ("z span", param.waveguide_width),
         ("vertices", param.waveguide_vtx),
         ("first axis", "x"), ("rotation 1", 90),
-        ("material", wg_material_et)
+        ("material", param.wg_material_et)
     ),
     "cladding": (
         ("z", param.cladding_z), ("z span", param.cladding_width),
         ("vertices", param.cladding_vtx),
         ("first axis", "x"), ("rotation 1", 90),
-        ("material", oxide_material_et)
+        ("material", param.oxide_material_et)
     ),
     "metal_left": (
-        ("x", param.metal_left_x), ("x span", param.metal_length),
+        ("x", param.metal_left_x), ("x span", param.metal_left_length),
         ("y", 0), ("y span", param.metal_width),
         ("z", param.metal_z), ("z span", param.metal_thickness),
-        ("material", contact_material_et)
+        ("material", param.contact_material_et)
     ),
     "metal_center": (
-        ("x", 0), ("x span", param.metal_length),
+        ("x", 0), ("x span", param.metal_center_length),
         ("y", 0), ("y span", param.metal_width),
         ("z", param.metal_z), ("z span", param.metal_thickness),
-        ("material", contact_material_et)
+        ("material", param.contact_material_et)
     ),
     "metal_right": (
-        ("x", param.metal_right_x), ("x span", param.metal_length),
+        ("x", param.metal_right_x), ("x span", param.metal_right_length),
         ("y", 0), ("y span", param.metal_width),
         ("z", param.metal_z), ("z span", param.metal_thickness),
-        ("material", contact_material_et)
+        ("material", param.contact_material_et)
     ),
 }
 
