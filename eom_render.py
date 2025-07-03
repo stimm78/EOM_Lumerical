@@ -25,9 +25,6 @@ def draw_eom(device):
     device.addrect(name='metal_center')
     device.addrect(name='metal_right')
 
-    '''
-    GENERAL CONFIG
-    '''
     configuration = {
     "substrate": (
         ("x", 0), ("x span", param.substrate_length),
@@ -73,9 +70,9 @@ def draw_eom(device):
     ),
 }
 
-    # Waveguide has higher priority when taking the union geometry
-    device.setnamed("waveguide", "mesh order", 2)
-    device.setnamed("cladding", "mesh order", 3)
+    # Waveguide has higher priority when taking the union geometry, necessary for material settings
+    device.setnamed("waveguide", "mesh order", 1)
+    device.setnamed("cladding", "mesh order", 2)
 
     for obj in configuration:
         for key, val in configuration[obj]:

@@ -28,7 +28,7 @@ BOX PARAMS:
 box_thickness
 
 WAVEGUIDE PARAMS:
-waveguide_bar_thickness, waveguide_core_thickness, waveguide_core_length, waveguide_x1 (right corner)
+waveguide_bar_thickness, waveguide_core_thickness, waveguide_core_length, waveguide_theta
 
 CLADDING PARAMS:
 cladding_thickness
@@ -37,7 +37,7 @@ METAL PARAMS:
 metal_length, metal_spacing, metal_thickness
 '''
 
-# -- START OF INPUT PARAMETERS --
+''' -- START OF INPUT PARAMETERS -- '''
 substrate_length = 50 * um
 substrate_width = 20 * um
 substrate_thickness = 9 * um 
@@ -48,20 +48,29 @@ box_thickness = 7 * um
 waveguide_bar_thickness = 700 * nm 
 waveguide_core_thickness = 1000 * nm 
 waveguide_core_length = 1.8 * um 
+waveguide_theta = 30 # ask Ben
 
 cladding_thickness = 900 * nm
 
 metal_left_length = 9.5 * um
-metal_center_length = 3.0 * um
+metal_center_length = 9.5 * um
 metal_right_length = 9.5 * um
 metal_spacing = 10 * um
-
 metal_thickness = 1.8 * um
 
 box_length = substrate_length
 box_width = substrate_width
 box_z = substrate_z + 0.5 * (substrate_thickness + box_thickness)
-# -- END OF INPUT PARAMETERS --
+
+
+# CHARGE SIMULATION PARAMS
+signal_voltage = 5 # V
+
+# FEEM SIMULATION PARAMS
+wavelength = 1.55 * um
+num_modes = 20
+
+''' -- END OF INPUT PARAMETERS -- '''
 
 metal_center_x = 0
 metal_left_x = metal_center_x - metal_spacing - 0.5 * (metal_center_length + metal_left_length)
@@ -111,6 +120,3 @@ simulation_x_span = metal_spacing + metal_center_length # assume centered
 simulation_x = 0.5 * (waveguide_x1 + waveguide_x2) # center on waveguide
 simulation_z = waveguide_y + waveguide_bar_thickness
 simulation_z_span = metal_thickness * 5
-
-# SET UP CHARGE SIMULATIONS
-signal_voltage = 5 # V

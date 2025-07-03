@@ -1,7 +1,10 @@
 import importlib
 import eom_parameters as param
 importlib.reload(param)
-
+'''
+CHARGE sweeps over voltage and calculates spatial E-fields -> Pockels effect perturbed index n(V,x,y)
+FEEM solves for TE0 mode at all voltages and evaluates modulator performance metrics (mode profile, modulator loss and efficiency)
+'''
 def add_charge_solver(device):
     device.addchargesolver()
     device.addchargemesh()
@@ -27,7 +30,7 @@ def add_charge_solver(device):
             ("geometry type", "volume"), 
             ("volume type", "solid"),
             ("volume solid", "waveguide"),
-            ("max edge length", 0.01 * param.um)
+            ("max edge length", 0.1 * param.um)
         ),
         "CHARGE::boundary conditions::metal_left": (
             ("bc mode", "steady state"),
@@ -49,9 +52,13 @@ def add_charge_solver(device):
             ('voltage', 0),
             ("surface type", "solid"),
             ("solid", "metal_right")
+        ),
+        "CHARGE::monitor": (
+            ("monitor type", "2D Y-Normal"),
+            ("x", param.simulation_x), ("y", 0), ("z", param.simulation_z),
+            ("x span", param.simulation_x_span), ("z span", param.simulation_z_span)
         )
-
     }
     for obj in configuration:
-            for key, val in configuration[obj]:
-                device.setnamed(obj, key, val)
+        for key, val in configuration[obj]:
+            device.setnamed(obj, key, val)
