@@ -8,10 +8,9 @@ FEEM solves for TE0 mode at all voltages and evaluates modulator performance met
 def add_charge_solver(device):
     device.addchargesolver()
     device.addchargemesh()
-    device.addelectricalcontact(name = "metal_left")
-    device.addelectricalcontact(name = "metal_center")
-    device.addelectricalcontact(name = "metal_right")
-
+    device.addelectricalcontact(name = "Left_Ground")
+    device.addelectricalcontact(name = "Signal")
+    device.addelectricalcontact(name = "Right_Ground")
     device.addefieldmonitor(name = "monitor")
 
     min_edge_length = 0.05 * param.um
@@ -29,29 +28,40 @@ def add_charge_solver(device):
         "CHARGE::mesh": (
             ("geometry type", "volume"), 
             ("volume type", "solid"),
-            ("volume solid", "waveguide"),
-            ("max edge length", 0.1 * param.um)
+            ("volume solid", "LiNbO3 WG"),
+            ("max edge length", 0.01 * param.um)
         ),
-        "CHARGE::boundary conditions::metal_left": (
+        "CHARGE::boundary conditions::Left_Ground": (
             ("bc mode", "steady state"),
             ('sweep type', 'single'),
             ('voltage', 0),
             ("surface type", "solid"),
-            ("solid", "metal_left")
+            ("solid", "Ground Electrode Left")
         ),
-        "CHARGE::boundary conditions::metal_center": (
+        # "CHARGE::boundary conditions::signal": ( 
+        #     ("bc mode", "steady state"),
+        #     ('sweep type', 'single'),
+        #     ('voltage', param.signal_voltage),
+        #     ("surface type", "solid"),
+        #     ("solid", "metal_center")
+        # ),
+        
+        # RANGE voltage sweep
+        "CHARGE::boundary conditions::Signal": ( 
             ("bc mode", "steady state"),
-            ('sweep type', 'single'),
-            ('voltage', param.signal_voltage),
+            ('sweep type', 'range'),
+            ('range start', 0),  ('range stop', param.signal_voltage),
+            ('range interval', param.signal_step),
             ("surface type", "solid"),
-            ("solid", "metal_center")
+            ("solid", "Signal Electrode"),
+            ("outer surface only", 1)
         ),
-        "CHARGE::boundary conditions::metal_right": (
+        "CHARGE::boundary conditions::Right_Ground": (
             ("bc mode", "steady state"),
             ('sweep type', 'single'),
             ('voltage', 0),
             ("surface type", "solid"),
-            ("solid", "metal_right")
+            ("solid", "Ground Electrode Right")
         ),
         "CHARGE::monitor": (
             ("monitor type", "2D Y-Normal"),

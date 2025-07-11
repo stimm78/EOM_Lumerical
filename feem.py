@@ -10,14 +10,16 @@ def add_feem_solver(device):
     device.addpec()
     device.addpml()
     device.addimportnk()
-
+    device.set
     configuration = {
         "FEEM": (
-            ("edges per wavelength", 2),
-            ("wavelength", param.wavelength),
-            ("number of trial modes", param.num_modes),
+            ("simulation region", "simulation region"),
+            ("edges per wavelength", 4),
             ("polynomial order", 2),
-            ("simulation region", "simulation region")
+            ("wavelength", param.wavelength),
+            ("use max index", 0),
+            ("number of trial modes", param.num_modes),
+            ("n", param.n)
         ),
         "FEEM::mesh": (
             ("geometry type", "volume"), 
@@ -43,12 +45,6 @@ def add_feem_solver(device):
         "FEEM::boundary conditions::PML": (
             ("sigma", 5),
         ),
-        # "FEEM::nk import": (
-        #     ("enabled", True),
-        #     ("volume type", "solid"),
-        #     ("volume solid", "waveguide"),
-        #     ("selected attribute", "nk")
-        # )
     }
     
     for obj in configuration:
