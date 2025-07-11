@@ -1,10 +1,12 @@
 import importlib
 import eom_parameters as param
 importlib.reload(param)
-'''
-FEEM solves for TE0 mode at all voltages and evaluates modulator performance metrics (mode profile, modulator loss and efficiency)
-'''
+
 def add_feem_solver(device):
+    """
+    Adds FEEM solver and sets simulation settings.
+    FEEM solves for TE0 mode at all voltages and evaluates modulator performance metrics (mode profile, modulator loss and efficiency)
+    """
     device.addfeemsolver()
     device.addfeemmesh()
     device.addpec()

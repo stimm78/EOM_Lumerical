@@ -1,11 +1,11 @@
 import importlib
 import eom_parameters as param
 importlib.reload(param)
-'''
-CHARGE sweeps over voltage and calculates spatial E-fields -> Pockels effect perturbed index n(V,x,y)
-FEEM solves for TE0 mode at all voltages and evaluates modulator performance metrics (mode profile, modulator loss and efficiency)
-'''
 def add_charge_solver(device):
+    """
+    Adds CHARGE solver and sets simulation settings.
+    CHARGE sweeps over voltage and calculates spatial E-fields -> Pockels effect perturbed index n(V,x,y)
+    """
     device.addchargesolver()
     device.addchargemesh()
     device.addelectricalcontact(name = "Left_Ground")
@@ -38,15 +38,6 @@ def add_charge_solver(device):
             ("surface type", "solid"),
             ("solid", "Ground Electrode Left")
         ),
-        # "CHARGE::boundary conditions::signal": ( 
-        #     ("bc mode", "steady state"),
-        #     ('sweep type', 'single'),
-        #     ('voltage', param.signal_voltage),
-        #     ("surface type", "solid"),
-        #     ("solid", "metal_center")
-        # ),
-        
-        # RANGE voltage sweep
         "CHARGE::boundary conditions::Signal": ( 
             ("bc mode", "steady state"),
             ('sweep type', 'range'),
