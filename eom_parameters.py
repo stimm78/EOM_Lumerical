@@ -53,7 +53,7 @@ cladding_thickness = 800 * nm
 metal_left_length = 9.5 * um
 metal_center_length = 9.5 * um
 metal_right_length = 9.5 * um
-metal_spacing = 3 * um
+metal_spacing = 4 * um
 metal_thickness = 0.3 * um
 
 # -------------------------
@@ -64,6 +64,12 @@ signal_step = 0.5       # Voltage sweep 0 to signal_voltage with step size signa
 wavelength = 1.55 * um  # Optical simulation wavelength
 num_modes = 20          # FEEM setting to search for TE mode
 n = 2.02                # Index near which to search for modes
+
+# -------------------------
+# GEOMETRY SWEEPS
+cladding_thickness_sweep = np.array([700]) * nm # np.array([700, 800, 900, 1000, 1100]) * nm
+metal_spacing_sweep = np.array([10]) * um # np.array([10, 8, 6, 5, 4, 3.5, 3, 2.5]) * um
+# -------------------------
 
 ''' -- END OF INPUT PARAMETERS -- '''
 
@@ -150,6 +156,14 @@ simulation_z_span = (waveguide_bar_thickness + cladding_thickness + metal_thickn
 
 def sweep_geometry(cladding_thickness_val, metal_spacing_val):
     """Return geometry based on cladding_thickness and metal_spacing while preserving global defaults."""
+    global cladding_thickness, metal_spacing
+    global box_z, metal_left_x, waveguide_x_center
+    global waveguide_x1, waveguide_x2, waveguide_y_bar_top, waveguide_y_core_top
+    global waveguide_vtx, cladding_vtx
+    global cladding_y_bar_top, cladding_y_core_top
+    global metal_right_x, metal_z, metal_width
+    global simulation_x_span, simulation_x, simulation_z, simulation_z_span
+
     cladding_thickness = cladding_thickness_val
     metal_spacing = metal_spacing_val
 
