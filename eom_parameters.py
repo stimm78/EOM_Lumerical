@@ -67,8 +67,8 @@ n = 2.02                # Index near which to search for modes
 
 # -------------------------
 # GEOMETRY SWEEPS
-cladding_thickness_sweep = np.array([700]) * nm # np.array([700, 800, 900, 1000, 1100]) * nm
-metal_spacing_sweep = np.array([10]) * um # np.array([10, 8, 6, 5, 4, 3.5, 3, 2.5]) * um
+cladding_thickness_sweep =  np.array([700, 800, 900, 1000, 1100]) * nm
+metal_spacing_sweep = np.array([10, 8, 6, 5, 4, 3.5, 3, 2.5]) * um
 # -------------------------
 
 ''' -- END OF INPUT PARAMETERS -- '''
